@@ -5,11 +5,9 @@
  */
 package air;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
 
 public class BookTicket extends javax.swing.JFrame {
 
@@ -20,37 +18,31 @@ public class BookTicket extends javax.swing.JFrame {
         initComponents();
         this.setBounds(200, 10, 700, 700);
         this.setResizable(false);
-        
-       
-         try
-        {
-            Database d=new Database();
-            PreparedStatement ps=d.con.prepareStatement("select * from flight");
-            ResultSet rs=ps.executeQuery();
-           
-            DefaultTableModel td=new DefaultTableModel();
-            td=(DefaultTableModel)jTable1.getModel();
+
+        try {
+            Database d = new Database();
+            PreparedStatement ps = d.con.prepareStatement("select * from flight");
+            ResultSet rs = ps.executeQuery();
+
+            DefaultTableModel td = new DefaultTableModel();
+            td = (DefaultTableModel) jTable1.getModel();
             td.setNumRows(0);
-            while(rs.next())
-            {
-               
-                String company=rs.getString(1);
-                String from=rs.getString(2);
-                String to=rs.getString(3);
-                  String date=rs.getString(4);
-                    String total=rs.getString(5);
-               
-                
-               td.addRow(new Object[]{company,from,to,date,total});
+            while (rs.next()) {
+
+                String company = rs.getString(1);
+                String from = rs.getString(2);
+                String to = rs.getString(3);
+                String date = rs.getString(4);
+                String total = rs.getString(5);
+                cmbbx_flight.addItem(rs.getString(1));
+
+                td.addRow(new Object[]{company, from, to, date, total});
             }
-        }
-        catch(Exception e)
-        {
+
+        } catch (Exception e) {
             System.out.println(e);
         }
-          
-        
-        
+
     }
 
     /**
@@ -68,10 +60,8 @@ public class BookTicket extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -83,8 +73,10 @@ public class BookTicket extends javax.swing.JFrame {
         jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
+        dP_dob = new org.jdesktop.swingx.JXDatePicker();
+        cmbbx_flight = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         getContentPane().setLayout(null);
 
@@ -106,7 +98,7 @@ public class BookTicket extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(60, 60, 600, 150);
+        jScrollPane1.setBounds(30, 60, 630, 150);
 
         jLabel2.setText("Company");
         getContentPane().add(jLabel2);
@@ -119,8 +111,6 @@ public class BookTicket extends javax.swing.JFrame {
         jLabel4.setText("Dob");
         getContentPane().add(jLabel4);
         jLabel4.setBounds(50, 340, 60, 20);
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(170, 220, 180, 40);
         getContentPane().add(jTextField2);
         jTextField2.setBounds(170, 270, 180, 40);
 
@@ -132,8 +122,6 @@ public class BookTicket extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1);
         jButton1.setBounds(380, 610, 80, 30);
-        getContentPane().add(jTextField3);
-        jTextField3.setBounds(170, 320, 190, 40);
 
         jLabel5.setText("Passport number");
         getContentPane().add(jLabel5);
@@ -168,72 +156,80 @@ public class BookTicket extends javax.swing.JFrame {
         jTextField7.setBounds(170, 540, 190, 40);
         getContentPane().add(jTextField8);
         jTextField8.setBounds(170, 600, 190, 30);
-        getContentPane().add(jTextField9);
-        jTextField9.setBounds(170, 640, 180, 30);
         getContentPane().add(jXDatePicker1);
-        jXDatePicker1.setBounds(410, 550, 128, 34);
+        jXDatePicker1.setBounds(170, 640, 190, 34);
+        getContentPane().add(dP_dob);
+        dP_dob.setBounds(170, 320, 180, 34);
+
+        cmbbx_flight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbbx_flightActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbbx_flight);
+        cmbbx_flight.setBounds(170, 220, 180, 34);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(jComboBox1);
+        jComboBox1.setBounds(470, 160, 96, 34);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    
-        
-         Database d=new Database();
-        String company=jTextField1.getText();
-        String uname=jTextField2.getText();
-        String dob=jTextField3.getText();
-         String pno=jTextField4.getText();
-         String phno=jTextField5.getText();
-         String address=jTextField6.getText();
-         String from=jTextField7.getText();
-         String to=jTextField8.getText();
-         String date=jXDatePicker1.getDate().toString();
 
-        
-        
-        try{
-            
-            PreparedStatement ps=d.con.prepareStatement("INSERT INTO `airticket`.`ticketbooking` (\n" +
-"`company` ,\n" +
-"`uname` ,\n" +
-"`dob` ,\n" +
-"`passportno` ,\n" +
-"`phno` ,\n" +
-"`address` ,\n" +
-"`from` ,\n" +
-"`to` ,\n" +
-"`datetime`\n" +
-") VALUES (?,?,?,?,?,?,?,?,?)");
-           ps.setString(1, company);
-           ps.setString(2, uname);
-           ps.setString(3, dob);
-          ps.setString(4, pno);
+        Database d = new Database();
+        String company = cmbbx_flight.getSelectedItem().toString();
+        String uname = jTextField2.getText();
+        String dob = dP_dob.getDate().toString();
+        String pno = jTextField4.getText();
+        String phno = jTextField5.getText();
+        String address = jTextField6.getText();
+        String from = jTextField7.getText();
+        String to = jTextField8.getText();
+        String date = jXDatePicker1.getDate().toString();
+
+        try {
+
+            PreparedStatement ps = d.con.prepareStatement("INSERT INTO `airticket`.`ticketbooking` (\n"
+                    + "`company` ,\n"
+                    + "`uname` ,\n"
+                    + "`dob` ,\n"
+                    + "`passportno` ,\n"
+                    + "`phno` ,\n"
+                    + "`address` ,\n"
+                    + "`from` ,\n"
+                    + "`to` ,\n"
+                    + "`datetime`\n"
+                    + ") VALUES (?,?,?,?,?,?,?,?,?)");
+            ps.setString(1, company);
+            ps.setString(2, uname);
+            ps.setString(3, dob);
+            ps.setString(4, pno);
             ps.setString(5, phno);
-              ps.setString(6, address);
-                ps.setString(7, from);
-                  ps.setString(8, to);
-                    ps.setString(9, date);
-          int val = ps.executeUpdate();
-          if(val>=1){
-              JOptionPane.showMessageDialog(null, "successfully booked");
-              
-             
-              
-          }
-          else{
-                            JOptionPane.showMessageDialog(null, "not successfully booked");
+            ps.setString(6, address);
+            ps.setString(7, from);
+            ps.setString(8, to);
+            ps.setString(9, date);
+            int val = ps.executeUpdate();
+            if (val >= 1) {
+                JOptionPane.showMessageDialog(null, "successfully booked");
 
-          }
-            
-        }catch(Exception e){
-            System.out.println("cannot order"+e);
+            } else {
+                JOptionPane.showMessageDialog(null, "not successfully booked");
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("cannot order" + e);
         }
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cmbbx_flightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbbx_flightActionPerformed
+
+    }//GEN-LAST:event_cmbbx_flightActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,7 +282,10 @@ public class BookTicket extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmbbx_flight;
+    private org.jdesktop.swingx.JXDatePicker dP_dob;
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -299,15 +298,12 @@ public class BookTicket extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     // End of variables declaration//GEN-END:variables
 }
