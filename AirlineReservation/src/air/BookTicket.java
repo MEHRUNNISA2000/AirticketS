@@ -10,10 +10,7 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author NVT
- */
+
 public class BookTicket extends javax.swing.JFrame {
 
     /**
@@ -87,6 +84,7 @@ public class BookTicket extends javax.swing.JFrame {
         jTextField7 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
         jTextField9 = new javax.swing.JTextField();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
 
         getContentPane().setLayout(null);
 
@@ -112,7 +110,7 @@ public class BookTicket extends javax.swing.JFrame {
 
         jLabel2.setText("Company");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(60, 230, 60, 14);
+        jLabel2.setBounds(60, 230, 60, 18);
 
         jLabel3.setText("User Name");
         getContentPane().add(jLabel3);
@@ -157,11 +155,11 @@ public class BookTicket extends javax.swing.JFrame {
 
         jLabel9.setText("To");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(50, 610, 40, 14);
+        jLabel9.setBounds(50, 610, 40, 18);
 
         jLabel10.setText("date & Time");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(50, 650, 70, 14);
+        jLabel10.setBounds(50, 650, 70, 18);
         getContentPane().add(jTextField5);
         jTextField5.setBounds(170, 430, 190, 30);
         getContentPane().add(jTextField6);
@@ -172,6 +170,8 @@ public class BookTicket extends javax.swing.JFrame {
         jTextField8.setBounds(170, 600, 190, 30);
         getContentPane().add(jTextField9);
         jTextField9.setBounds(170, 640, 180, 30);
+        getContentPane().add(jXDatePicker1);
+        jXDatePicker1.setBounds(410, 550, 128, 34);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -188,7 +188,8 @@ public class BookTicket extends javax.swing.JFrame {
          String address=jTextField6.getText();
          String from=jTextField7.getText();
          String to=jTextField8.getText();
-         String date=jTextField9.getText();
+         String date=jXDatePicker1.getDate().toString();
+
         
         
         try{
@@ -307,5 +308,6 @@ public class BookTicket extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     // End of variables declaration//GEN-END:variables
 }

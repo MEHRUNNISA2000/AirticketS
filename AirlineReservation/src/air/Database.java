@@ -21,7 +21,7 @@ public class Database {
         try{
         
         Class.forName("com.mysql.jdbc.Driver").newInstance();
-    con=DriverManager.getConnection("jdbc:mysql://localhost:3306/airticket","root","password");
+    con=DriverManager.getConnection("jdbc:mysql://localhost:3306/airticket","root","root");
             System.out.println("connected to database successfully");
         }catch(Exception e){
             System.out.println("cannot connect to database"+e);
